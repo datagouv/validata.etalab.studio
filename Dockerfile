@@ -1,9 +1,9 @@
-FROM python:3.7.6-stretch
+FROM python:3.7.6-buster
 
 EXPOSE 5000
 
 RUN apt-get update && \
-  apt-get install --yes --no-install-recommends chromium=73.0.3683.75-1~deb9u1
+  apt-get install --yes --no-install-recommends chromium
 
 RUN pip install --no-cache-dir gunicorn
 
