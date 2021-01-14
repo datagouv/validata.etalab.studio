@@ -5,6 +5,8 @@ EXPOSE 5000
 RUN apt-get update && \
   apt-get install --yes --no-install-recommends chromium=73.0.3683.75-1~deb9u1
 
+RUN pip install --no-cache-dir gunicorn
+
 ARG uid=1000
 ARG gid=1000
 
@@ -17,6 +19,6 @@ USER validata
 WORKDIR /home/validata/
 
 COPY --chown=validata:validata requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt --no-warn-script-location
 
 CMD gunicorn --workers 4 --bind 0.0.0.0:5000 validata_ui:app
