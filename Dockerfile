@@ -19,6 +19,7 @@ USER validata
 WORKDIR /home/validata/
 
 COPY --chown=validata:validata requirements.txt .
+COPY --chown=validata:validata homepage_config.json .
 RUN pip install --no-cache-dir -r requirements.txt --no-warn-script-location
 
 CMD gunicorn --workers 4 --bind 0.0.0.0:5000 validata_ui:app
