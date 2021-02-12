@@ -1,0 +1,41 @@
+footer:
+  links:
+    - title: API
+      url: https://go.validata.fr/api/v1/apidocs
+    - title: Codes sources
+      url: https://git.opendatafrance.net/validata
+    - title: Salon de discussion public
+      url: https://riot.im/app/#/room/#validata:jailbreak.paris
+header:
+  links:
+    - title: Mode d'emploi
+      url: https://validata.fr/doku.php?id=utilisation
+    - title: Documentation SCDL
+      url: https://scdl.opendatafrance.net/docs
+    - title: Forum
+      url: https://teamopendata.org/c/socle-commun-des-donnees-locales
+homepage:
+  sections:
+    - name: schema-datagouvfr
+      title: schema.data.gouv.fr
+      description: Les schémas référencés sur schema.data.gouv.fr.
+      catalog: https://schema.data.gouv.fr/schemas/schemas.json
+    - name: external
+      title: Validateurs externes
+      description: Sélection d'outils de validation de données complémentaires à Validata.
+      links:
+        - name: inspire
+          type: external
+          title: INSPIRE
+          description: proposé par la Commission Européenne pour tester des ressources géographiques (données, services ou métadonnées)
+          website: http://inspire-sandbox.jrc.ec.europa.eu/validator/
+        - name: bal
+          type: external
+          title: BAL
+          description: proposé par la mission Etalab pour tester des données Adresse produites localement (format BAL 1.1)
+          website: https://adresse.data.gouv.fr/bases-locales/validateur
+        - name: cvdtc
+          type: external
+          title: CVDTC
+          description: proposé par l'AFIMB dans le cadre du projet Chouette pour tester des données de transport collectif (GTFS ou NEPTUNE)
+          website: http://www.conversion-validation-donnees-tc.org/
