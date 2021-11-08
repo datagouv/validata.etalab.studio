@@ -5,6 +5,7 @@ EXPOSE 5000
 RUN apt-get update && \
   apt-get install --yes --no-install-recommends chromium
 
+RUN pip install --upgrade pip
 RUN pip install --no-cache-dir gunicorn
 
 ARG uid=1000
