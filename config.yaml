@@ -4,16 +4,14 @@ footer:
       url: https://go.validata.fr/api/v1/apidocs
     - title: Codes sources
       url: https://git.opendatafrance.net/validata
-    - title: Salon de discussion public
-      url: https://riot.im/app/#/room/#validata:jailbreak.paris
 header:
   links:
-    - title: Mode d'emploi
-      url: https://validata.fr/doku.php?id=utilisation
-    - title: Documentation SCDL
-      url: https://scdl.opendatafrance.net/docs
-    - title: Forum
-      url: https://teamopendata.org/c/socle-commun-des-donnees-locales
+    - title: schema.data.gouv.fr
+      url: https://schema.data.gouv.fr
+    - title: Guide Schémas
+      url: https://guides.etalab.gouv.fr/producteurs-schemas/#a-qui-s-adresse-ce-guide
+    - title: Espace de discussion 
+      url: https://github.com/etalab/schema.data.gouv.fr/issues
 homepage:
   sections:
     - name: schema-datagouvfr
