@@ -1,4 +1,4 @@
-FROM python:3.9.6-buster
+FROM python:3.9.10-buster
 
 EXPOSE 5000
 
