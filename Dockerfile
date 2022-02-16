@@ -14,6 +14,8 @@ ARG gid=1000
 RUN groupadd -g ${gid} validata && \
   useradd -u ${uid} -g ${gid} --create-home --shell /bin/bash validata
 
+ADD nginx.conf.sigil /home/validata/
+
 # Cf https://bugs.chromium.org/p/chromium/issues/detail?id=638180 and https://blog.ineat-conseil.fr/2018/08/executer-karma-avec-chromeheadless-dans-un-conteneur-docker/
 USER validata
 
