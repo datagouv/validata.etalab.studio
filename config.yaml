@@ -6,34 +6,24 @@ footer:
       url: https://git.opendatafrance.net/validata
 header:
   links:
+    - title: Mode d'emploi
+      url: https://opendatafrance.gitbook.io/validata/
+    - title: Espace de discussion Validata
+      url: https://riot.im/app/#/room/#validata:jailbreak.paris
+    - title: API Validata
+      url: https://api.validata.etalab.studio/apidocs
     - title: schema.data.gouv.fr
       url: https://schema.data.gouv.fr
     - title: Guide Schémas
       url: https://guides.etalab.gouv.fr/producteurs-schemas/#a-qui-s-adresse-ce-guide
-    - title: Espace de discussion 
+    - title: Espace de discussion schémas
       url: https://github.com/etalab/schema.data.gouv.fr/issues
 homepage:
   sections:
+    - name: presentation
+      title: Présentation
+      description: Validata est une plateforme de validation de données ouvertes. Elle offre à ses utilisateurs la possibilité de vérifier la conformité de leurs données par rapport aux schémas de données nationaux de référence, répertoriés sur schema.data.gouv.fr. Depuis Mars 2022 l’association OpenDataFrance et Etalab mettent à disposition une version unique et commune de cette plateforme dans le cadre d’une coopération renforcée en matière de gouvernance et de stratégie sur les sujets liés à la standardisation des données ouvertes à l’échelle nationale. Cette plateforme commune résulte des travaux d’unification de leurs démarches et de leurs ressources respectives en matière de standardisation.
     - name: schema-datagouvfr
       title: schema.data.gouv.fr
       description: Les schémas référencés sur schema.data.gouv.fr.
       catalog: https://schema.data.gouv.fr/schemas/schemas.json
-    - name: external
-      title: Validateurs externes
-      description: Sélection d'outils de validation de données complémentaires à Validata.
-      links:
-        - name: inspire
-          type: external
-          title: INSPIRE
-          description: proposé par la Commission Européenne pour tester des ressources géographiques (données, services ou métadonnées)
-          website: http://inspire-sandbox.jrc.ec.europa.eu/validator/
-        - name: bal
-          type: external
-          title: BAL
-          description: proposé par la mission Etalab pour tester des données Adresse produites localement (format BAL 1.1)
-          website: https://adresse.data.gouv.fr/bases-locales/validateur
-        - name: cvdtc
-          type: external
-          title: CVDTC
-          description: proposé par l'AFIMB dans le cadre du projet Chouette pour tester des données de transport collectif (GTFS ou NEPTUNE)
-          website: http://www.conversion-validation-donnees-tc.org/
