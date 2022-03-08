@@ -7,7 +7,7 @@ header:
     - title: Mode d'emploi
       url: https://opendatafrance.gitbook.io/validata/
     - title: Espace de discussion Validata
-      url: "https://riot.im/app/#/room/#validata:jailbreak.paris"
+      url: https://riot.im/app/#/room/#validata
     - title: API Validata
       url: https://api.validata.etalab.studio/apidocs
     - title: schema.data.gouv.fr
