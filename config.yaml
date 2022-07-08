@@ -24,6 +24,7 @@ homepage:
       title: Socle Commun des données locales
       description: Schémas à destination des collectivités territoriales dont la publication des données est considérée comme prioritaire.
       catalog: https://schema.data.gouv.fr/schemas/schemas-scdl.json
+    # If `name: schema-transport` is changed, get in touch with the transport.data.gouv.fr team
     - name: schema-transport
       title: transport.data.gouv.fr
       description: Schémas mis en avant par transport.data.gouv.fr, relatifs à la mobilité et aux transports.
