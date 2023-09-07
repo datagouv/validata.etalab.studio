@@ -13,7 +13,7 @@ header:
     - title: schema.data.gouv.fr
       url: https://schema.data.gouv.fr
     - title: Guide Schémas
-      url: https://guides.etalab.gouv.fr/producteurs-schemas/#a-qui-s-adresse-ce-guide
+      url: https://guides.data.gouv.fr/publier-des-donnees/guide-qualite/maitriser-les-schemas-de-donnees
     - title: Espace de discussion schémas
       url: https://github.com/etalab/schema.data.gouv.fr/issues
 homepage:
