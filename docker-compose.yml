@@ -4,6 +4,7 @@ services:
   validata:
     build:
       context: ./
+    container_name: validata
     environment:
       - BADGE_CONFIG_URL=https://git.opendatafrance.net/validata/validata-badge/raw/master/badge_conf.toml
       - CONFIG=config.yaml
