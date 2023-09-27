@@ -1,2 +1,2 @@
 jinja2==3.0.3
-validata-ui==0.7.8
+validata-ui==0.7.9
