@@ -1,0 +1,20 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: src/validata_api/Dockerfile
+      target: development
+    image: validata-api-dev
+    container_name: validata-api-dev
+    volumes:
+      - ./src:/opt/validata-table/src
+
+  ui:
+    build:
+      context: .
+      dockerfile: src/validata_ui/Dockerfile
+      target: development
+    image: validata-ui-dev
+    container_name: validata-ui-dev
+    volumes:
+      - ./src:/opt/validata-table/src

@@ -1,0 +1,150 @@
+{% macro thead(report, with_lineno_col=False) %}
+        <thead class="thead-light">
+            <tr>
+              {% if with_lineno_col %}
+              <th scope="col">1</th>
+              {% endif %}
+              {% for h in report.table.header %}
+                <th
+                  scope="col"
+                  {% if report.table.cols_alert[loop.index - 1] != "" %}class="{{ report.table.cols_alert[loop.index - 1] }}"{% endif %}
+                  data-toggle="popover"
+                  title="{{ report.table.headers_title[loop.index - 1]}}"
+                  data-content="{{ report.table.headers_description[loop.index - 1] | commonmark2html | escape}}"
+                  >{{ h }}</th>
+              {% endfor %}
+            </tr>
+        </thead>
+{% endmacro %}
+
+{% macro preview(report, source_data) %}
+<div class="table-responsive-sm">
+    <table class="table-striped table-bordered table-sm table-hover">
+        {{ thead(report) }}
+        <tbody>
+            {% for row in source_data.preview_rows %}
+            <tr>
+                {% for val in row %}
+                <td
+                {% if report.table.cols_alert[loop.index - 1] != "" %}class="{{ report.table.cols_alert[loop.index - 1] }}"{% endif %}
+                >{{ val }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endmacro %}
+
+{% macro body_errors(report, source_data, print_mode) %}
+    {% if print_mode %}
+        {{ body_errors_pdf(report, source_data) }}
+    {% else %}
+        {{ body_errors_screen(report, source_data) }}
+    {% endif %}
+{% endmacro %}
+
+
+{% macro body_errors_pdf(report, source_data) %}
+<table id="table-errors" class="table table-striped table-bordered table-sm">
+<thead class="thead-light">
+    <th>Ligne</th>
+    <th>Colonne</th>
+    <th>Valeur</th>
+    <th>Erreur</th>
+</thead>
+<tbody>
+{% for row in report.table.errors.body_by_rows %}
+    {% if 'row' in row.errors %}
+        <tr>
+            <td>{{ row.row_id }}</td>
+            <td colspan="3">{{ row.errors.row.title }}</td>
+        </tr>
+    {% else %}
+        {% for d in source_data.data_rows[row.row_id - 2] %}
+            {% if loop.index in row.errors %}
+            <tr>
+                <td>{{ row.row_id }}</td>
+                <td>{{ source_data.header[loop.index - 1] }}</td>
+                <td>{{ d }}</td>
+                <td>
+                    <h5>{{row.errors[loop.index].title}}</h5>
+                    {{ row.errors[loop.index].content | safe }}
+                </td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endfor %}
+{% endmacro %}
+
+
+{% macro body_errors_screen(report, source_data) %}
+<div class="table-responsive-sm">
+    <table class="table-sm table-bordered table-striped table-hover">
+        {{ thead(report, True) }}
+        <tbody>
+            {% for row in report.table.errors.body_by_rows %}
+            <tr>
+                {# Line no #}
+                {% if 'row' in row.errors %}
+                <th class="table-danger" data-toggle="popover" title="{{ row.errors.row.title }}" data-content="{{ row.errors.row.content }}">
+                    {{ row.row_id }}
+                </th>
+                {% if row.errors.row.code == 'blank-row' and not source_data.data_rows[row.row_id -2] %}
+                {% for _ in report.table.headers %}
+                <td class="table-danger" data-toggle="popover" title="{{ row.errors.row.title }}" data-content="{{ row.errors.row.content }}"></td>
+                {% endfor %}
+                {% endif %}
+                {% else %}
+                <th>{{ row.row_id }}</th>
+                {% endif %}
+
+                {# normal columns #}
+                {% for d in source_data.data_rows[row.row_id - 2] %}
+                {% if loop.index in row.errors %}
+                <td class="table-danger" data-toggle="popover"
+                    title="{{row.errors[loop.index].title}}"
+                    data-content="{{ row.errors[loop.index].content }}">{{ d }}</td>
+                    {% elif 'row' in row.errors %}
+                <td class="table-danger" data-toggle="popover"
+                    title="{{row.errors.row.title }}"
+                    data-content="{{ row.errors.row.content }}">{{ d }}</td>
+                    {% else %}
+                    <td>{{ d }}</td>
+                {% endif %}
+                {%- endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endmacro %}
+
+{% macro error_statistics(report) %}
+
+{% set structure_errors = report.table['error-stats']['structure-errors'] %}
+{% if structure_errors['count'] != 0 %}
+<p>Erreurs de structure ({{ structure_errors['count'] }}) :</p>
+<ul>
+    {% for item in structure_errors['count-by-code'] %}
+    <li>{{ item[0] }} ({{ item[1] }})</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>Aucune erreur de structure.</p>
+{% endif %}
+
+{% set value_errors = report.table['error-stats']['body-errors'] %}
+{% if value_errors['count'] > 0 %}
+<p>Erreurs de contenu ({{ value_errors['count'] }} sur {{ value_errors['rows-count'] }} ligne{% if value_errors['rows-count'] > 1 %}s{% endif %}) :</p>
+<ul>
+    {% for item in value_errors['count-by-code'] %}
+    <li>{{ item[0] }} ({{ item[1] }})</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>Aucune erreur de contenu</p>
+{% endif %}
+
+{% endmacro %}

@@ -1,0 +1,111 @@
+{% from "_sentry.html" import init_sentry %}
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    {% block head %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico')}}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico')}}" type="image/x-icon">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" media="all">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous" media="all">
+    <!-- Validata CSS-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='validata.css')}}" media="all">
+    <title>Validata – {% block title %}{% endblock %}</title>
+    {% endblock %}
+</head>
+
+<body>
+    <!-- horizontal navigation bar -->
+    <nav class="nav px-3 py-2 border-bottom">
+        <a class="navbar-brand" href="{{ url_for('home') }}">
+            <img src="{{ url_for('static', filename='img/logo-horizontal.png') }}" width="106" height="15" alt="Validata" />
+        </a>
+        {% for link in config.CONFIG.header.links %}
+        <a class="nav-link" href="{{ link.url }}" target="_blank">{{ link.title }}</a>
+        {% endfor %}
+        <a class="btn btn-outline-danger ml-auto" rel="external" target="_blank" href="https://gitlab.com/validata-table/validata-ui/issues/new?issuable_template=Probl%C3%A8me">
+            Signaler un problème
+        </a>
+    </nav>
+
+    <!-- Breadcrumbs -->
+    {% if breadcrumbs %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            {% for bc in breadcrumbs %}
+            <li class="breadcrumb-item">
+            {% if bc.url %}
+                <a href="{{ bc.url }}">{{ bc.title|e }}</a>
+            {% else %}
+                <span>{{ bc.title|e }}</span>
+            {% endif %}
+            </li>
+            {% endfor %}
+        </ol>
+    </nav>
+    {% endif %}
+
+    <!-- Flashing messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <!-- main content -->
+    <div id="content">
+    {% block content %}{% endblock %}
+    </div>
+
+    <footer class="footer hidden-print">
+        <p>
+            <a href="https://www.validata.fr/">Validata</a> est
+            une initiative d'<a href="http://www.opendatafrance.net/">OpenDataFrance</a>
+            développée par <a href="https://multi.coop">multi</a>.
+        </p>
+        <p>
+            {% for link in config.CONFIG.footer.links %}
+            <a href="{{ link.url }}" target="_blank">{{ link.title }}</a>
+            {{ " | " if not loop.last }}
+            {% endfor %}
+        </p>
+        <p class="text-muted">
+            version <a href="https://gitlab.com/validata-table/validata-ui/tree/v{{ validata_ui_version }}" target="_blank">{{ validata_ui_version }}</a>
+        </p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    {% block page_scripts %}{% endblock %}
+
+    {% if config.MATOMO_BASE_URL and config.MATOMO_SITE_ID %}
+        <script type="text/javascript">
+        var _paq = window._paq || [];
+        /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function() {
+            var u="{{ config.MATOMO_BASE_URL }}/";
+            _paq.push(['setTrackerUrl', u+'matomo.php']);
+            _paq.push(['setSiteId', '{{ config.MATOMO_SITE_ID }}']);
+            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+            g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+        })();
+        </script>
+    {% endif %}
+
+    {% if config.SENTRY_DSN %}
+    {{ init_sentry(config.SENTRY_DSN) }}
+    {% endif %}
+
+</body>
+
+</html>

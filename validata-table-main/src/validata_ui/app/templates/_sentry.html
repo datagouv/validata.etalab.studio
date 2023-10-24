@@ -1,0 +1,9 @@
+{% macro init_sentry(sentry_dsn) %}
+  <script
+    src="https://browser.sentry-cdn.com/5.13.0/bundle.min.js"
+    integrity="sha384-ePH2Cp6F+/PJbfhDWeQuXujAbpil3zowccx6grtsxOals4qYqJzCjeIa7W2UqunJ"
+    crossorigin="anonymous"></script>
+  <script>
+    Sentry.init({ dsn: "{{ sentry_dsn }}" });
+  </script>
+{% endmacro %}

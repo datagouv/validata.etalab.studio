@@ -1,0 +1,122 @@
+{% extends "base_template.html" %}
+
+{% import 'schema_info_macros.html' as schema_info_macros %}
+
+{% block title %}{{ section_title }} – {{ schema_info.title }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row my-4">
+        <div class="col-lg-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    {{ schema_info_macros.html(schema_info, branches, tags, schema_current_version, doc_url) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="file-tab" data-toggle="tab" href="#file" role="tab" aria-controls="file"
+                        aria-selected="true">Fichier</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="url-tab" data-toggle="tab" href="#url" role="tab" aria-controls="url"
+                        aria-selected="false">URL</a>
+                </li>
+                {% if schema_info.resources %}
+                <li class="nav-item">
+                        <a class="nav-link" id="examples-tab" data-toggle="tab" href="#example" role="tab"
+                            aria-controls="examples" aria-selected="false">Exemples</a>
+                </li>
+                {% endif %}
+            </ul>
+            {% set padding_class = 'p-3' %}
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane show active {{ padding_class }}" id="file" role="tabpanel" aria-labelledby="file-tab">
+                    <form method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="input" value="file" />
+                        {% for key, value in schema_params.items() %}
+                        <input type="hidden" name="{{ key }}" value="{{ value }}" />
+                        {% endfor %}
+                        <div class="form-group">
+                            <input required type="file" class="form-control-file" name="file" id="file" accept=".csv, .xls, .xlsx, .ods" aria-describedby="fileHelpBlock" />
+                            <small id="fileHelpBlock" class="form-text text-muted">
+                                Exemple : .xlsx, .xls, .ods, .csv, .tsv, etc. Taille maximum : 10Mo
+                            </small>
+                        </div>
+                        <div>
+                            <span>Prendre en compte les majuscules et miniscules dans les noms de colonnes : </span>
+                            <input type="checkbox" name="header-case" checked>
+                            <small id="fileHelpBlock" class="form-text text-muted">
+                                Pour prendre en compte le respect des majuscules et
+                                minuscules dans l'écriture des noms de colonnes de votre jeu de données à valider,
+                                laisser cochée cette case
+                            </small><br>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Valider le fichier</button>
+                    </form>
+                </div>
+                <div class="tab-pane {{ padding_class }}" id="url" role="tabpanel" aria-labelledby="url-tab">
+                    <form method="GET">
+                        <input type="hidden" name="input" value="url" />
+                        {% for key, value in schema_params.items() %}
+                        <input type="hidden" name="{{ key }}" value="{{ value }}" />
+                        {% endfor %}
+                        <div class="form-group">
+                            <input required name="url" type="url" class="form-control" id="url" aria-describedby="urlHelpBlock" placeholder="https://example.com/file.csv" />
+                            <small id="urlHelpBlock" class="form-text text-muted">
+                                Exemple : .xlsx, .xls, .ods, .csv, .tsv, etc.
+                            </small>
+                        </div>
+                        <div>
+                            <span>Prendre en compte les majuscules et miniscules dans les noms de colonnes : </span>
+                            <input type="checkbox" name="header-case"  checked>
+                            <small id="fileHelpBlock" class="form-text text-muted">
+                                Pour prendre en compte le respect des majuscules et
+                                minuscules dans l'écriture des noms de colonnes de votre jeu de données à valider,
+                                laisser cochée cette case
+                            </small><br>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Valider le fichier</button>
+                    </form>
+                </div>
+                {% if schema_info.resources %}
+                <div class="tab-pane {{ padding_class }}" id="example" role="tabpanel" aria-labelledby="examples-tab">
+                    <form method="GET">
+                        <input name="input" value="example" type="hidden">
+                        {% for key, value in schema_params.items() %}
+                        <input type="hidden" name="{{ key }}" value="{{ value }}" />
+                        {% endfor %}
+                        <div class="form-group">
+                            <select required name="url" id="url" class="form-control">
+                                <option selected disabled value="">Choisissez un fichier tabulaire d'exemple</option>
+                                {% for res in schema_info.resources %}
+                                <option value="{{ res.path }}">{{ res.title }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div>
+                            <span>Prendre en compte les majuscules et miniscules dans les noms de colonnes : </span>
+                            <input type="checkbox" name="header-case" checked>
+                            <small id="fileHelpBlock" class="form-text text-muted">
+                                Pour prendre en compte le respect des majuscules et
+                                minuscules dans l'écriture des noms de colonnes de votre jeu de données à valider,
+                                laisser cochée cette case
+                            </small><br>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Valider le fichier</button>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block page_scripts %}
+{% if branches or tags %}
+{{ schema_info_macros.script() }}
+{% endif %}
+{% endblock %}
