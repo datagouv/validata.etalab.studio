@@ -1,0 +1,103 @@
+{% macro html(schema_info, branches, tags, schema_current_version, doc_url) %}
+<h2 class="card-title">
+    {% if schema_info.title %}
+    {{ schema_info.title }}
+    {% endif %}
+    {% if schema_info.version %}
+    <span class="badge badge-primary">{{ schema_info.version }}</span>
+    {% endif %}
+</h2>
+
+{% if branches or tags %}
+<form class="form-inline my-2">
+    <div class="form-group">
+        <label for="git_ref" class="mr-2">Versions</label>
+        <select class="form-control" id="version_select" name="git_ref">
+            {% if tags %}
+            <optgroup label="publiées">
+            {% for tag in tags %}
+            <option{% if tag.name == schema_current_version %} selected{% endif %}>{{ tag.name }}</option>
+            {% endfor %}
+            </optgroup>
+            {% endif %}
+
+            {% if branches %}
+            <optgroup label="prochaines">
+            {% for branch in branches %}
+            <option{% if branch.name == schema_current_version %} selected{% endif %}>{{ branch.name }}</option>
+            {% endfor %}
+            </optgroup>
+            {% endif %}
+        </select>
+    </div>
+</form>
+{% endif %}
+
+{% if schema_info.description %}
+<p>{{ schema_info.description }}</p>
+{% endif %}
+
+{% if schema_info.contributors %}
+<p>Contributeurs :</p>
+<ul>
+    {% for contributor in schema_info.contributors %}
+    <li>
+        {{ contributor.title }}{% if contributor.title and contributor.organisation %}, {% endif %}
+        {% if contributor.organisation %}{{ contributor.organisation }}{% endif %}
+
+        {# role #}
+        {% if contributor.role == 'author' %}(auteur){% endif %}
+        {% if contributor.role == 'contributor' %}(contributeur){% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% if schema_info.homepage %}
+<a href="{{ schema_info.homepage }}" target="_blank" class="card-link d-block ml-0">
+    Page d'accueil
+</a>
+{% endif %}
+
+{% if doc_url and doc_url != schema_info.homepage %}
+<a href="{{ doc_url }}" target="_blank" class="card-link d-block ml-0">Documentation</a>
+{% endif %}
+{% endmacro %}
+
+{% macro script() %}
+<script>
+    var vbox = $('#version_select');
+    vbox.on('change', function() {
+
+        // Extract base url and query string
+        var current_url = document.location.href;
+        var base_url = current_url;
+        var query_string = "";
+        var qidx = current_url.indexOf('?');
+        if (qidx != -1) {
+            query_string = current_url.substring(qidx+1);
+            base_url = current_url.substring(0, qidx);
+        }
+
+        // Transforms query string into parameter dictionary
+        // ignoring schema_ref parameter if exists
+        var params = query_string.split("&");
+        var param_dict = {};
+        for (var i=0; i<params.length; i++) {
+            var pair = params[i].split('=');
+            if (pair[0] != 'schema_ref') {
+                param_dict[pair[0]] = pair[1];
+            }
+        }
+        param_dict['schema_ref'] = encodeURIComponent(vbox.val());
+
+        // Build new URL to redirect to
+        var param_list = [];
+        for (p in param_dict) {
+            param_list.push(p + '=' + param_dict[p]);
+        }
+        var new_url = base_url + '?' + param_list.join('&');
+        document.location.href = new_url;
+    })
+</script>
+{% endmacro %}

@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+
+.pytest_cache
+
+*.egg
+.eggs
+*.egg-info
+
+.env
+.venv
+
+# Editors stuff
+.vscode/*
+.idea
+
+*/schema.yaml

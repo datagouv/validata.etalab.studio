@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: src/validata_api/Dockerfile
+      target: preproduction
+    image: validata-api-preprod
+    container_name: validata-api_$ENV_NAME
+    env_file:
+      - .env
+    ports:
+      - $PORT_NUMBER_API:5600
+
+  ui:
+    build:
+      context: .
+      dockerfile: src/validata_ui/Dockerfile
+      target: preproduction
+    image: validata-ui-preprod
+    container_name: validata-ui_$ENV_NAME
+    env_file:
+      - .env
+    ports:
+      - $PORT_NUMBER_UI:5000
+    links:
+      - api
