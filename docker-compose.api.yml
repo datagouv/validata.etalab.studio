@@ -1,0 +1,12 @@
+---
+version: '3'
+services:
+  validata_api:
+    env_file:
+      - .env
+    build:
+      context: ./
+      dockerfile: Dockerfile.api.yml
+    container_name: validata-api_$ENV_NAME
+    ports:
+      - $PORT_NUMBER_API:5000
