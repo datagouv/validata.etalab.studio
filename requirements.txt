@@ -1,2 +1,1 @@
-jinja2==3.0.3
-validata-ui==0.7.9
+validata-table==0.10.1
