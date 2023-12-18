@@ -47,12 +47,17 @@ sous vérification de l'équipe de data.gouv.fr (Geoffrey Aldebert et Pierlou Ra
   git checkout preprod
   git checkout -b "work-branch"
   ```
-  - Modification du fichier des [requirements.txt](https://github.com/etalab/validata.etalab.studio/blob/766ac9bf46ca6202a0f0b29e55f287fbf5f09dc4/requirements.txt) 
-  pour modifier la version du package `validata-table` selon sa dernière version disponible, 
-  et commit des modifications dans cette branche de travail `work-branch` et `push`de cette branche sur le dépôt 
+  - Modification de la version des images Docker publiques `validata-table-ui` et `validata-table-api` utilisées dans les fichiers
+  [docker-compose.yml](https://github.com/etalab/validata.etalab.studio/blob/master/docker-compose.yml) et 
+  [docker-compose.api.yml](https://github.com/etalab/validata.etalab.studio/blob/master/docker-compose.api.yml), 
+  utilisant elles-mêmes la dernière version du package `validata-table` publiée sur [PyPI](https://pypi.org/project/validata-table/) :
+  ```
+  git add docker-compose.yml docker-compose.api.yml
+  ```
+  - Commit des modifications dans cette branche de travail `work-branch` et `push`de cette branche sur le dépôt 
   distant :
   ```
-  git add requirements.txt && git commit -m "update validata-table version package"
+  git commit -m "Update 'validata-table-ui' and 'validata-table-api' image's version"
   git push origin work-branch
   ```
 - Sur le dépôt GitHub de data.gouv.fr [validata.etalab.studio](https://github.com/etalab/validata.etalab.studio) : 
@@ -75,6 +80,7 @@ sous vérification de l'équipe de data.gouv.fr (Geoffrey Aldebert et Pierlou Ra
   ```
   - vérifier que le fichier `.env` existe dans ce répertoire et intègre toutes 
   les variables d'environnement requises au bon fonctionnement de la préproduction :
+    - CONFIG_FILE=/opt/validata-table/config.yaml
     - ENV_NAME=preprod
     - FLASK_SECRET_KEY=***
     - PORT_NUMBER=5060
@@ -125,6 +131,7 @@ pour la mise en production :
   ```
   - vérifier que le fichier `.env` existe dans ce répertoire et intègre toutes 
   les variables d'environnement requises au bon fonctionnement de la production :
+    - CONFIG_FILE=/opt/validata-table/config.yaml
     - ENV_NAME=prod
     - FLASK_SECRET_KEY=***
     - PORT_NUMBER=5059
