@@ -4,13 +4,8 @@ services:
   validata:
     env_file:
       - .env
-    build:
-      context: ./
+    image:
+      registry.gitlab.com/validata-table/validata-table/validata-table-ui:v0.10.3
     container_name: validata_$ENV_NAME
-    environment:
-      - BADGE_CONFIG_URL=https://gitlab.com/validata-table/validata-badge/raw/master/badge_conf.toml
-      - CONFIG=config.yaml
-      - CONFIG_FILE=config.yaml
-      - HOMEPAGE_CONFIG_FILE=homepage_config.json
     ports:
       - $PORT_NUMBER:5000
