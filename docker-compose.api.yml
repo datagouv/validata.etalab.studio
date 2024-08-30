@@ -5,7 +5,7 @@ services:
     env_file:
       - .env
     image:
-      registry.gitlab.com/validata-table/validata-table/validata-table-api:v0.10.3
+      registry.gitlab.com/validata-table/validata-table/validata-table-api:v0.11.2
     container_name: validata-api_$ENV_NAME
     ports:
       - $PORT_NUMBER_API:5600
